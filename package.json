@@ -1,0 +1,22 @@
+{
+  "name": "aoc18",
+  "version": "1.0.0",
+  "description": "A simple app that runs all of my puzzle solutions for Advent of Code 2018",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattcdrake/aoc18.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattcdrake/aoc18/issues"
+  },
+  "homepage": "https://github.com/mattcdrake/aoc18#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
