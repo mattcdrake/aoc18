@@ -6,9 +6,12 @@
 #define AOC18_UI_H
 
 
-class uiController {
+class uiController
+{
 public:
     void drawMenu();
+    void runPuzzles();
+    int getUserInput();
 };
 
 #endif

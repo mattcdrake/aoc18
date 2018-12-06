@@ -12,6 +12,8 @@ void puzzleManager::runPuzzle(int puzzle)
         case 1:
             std::cout << "running puzzle # " << puzzle << std::endl;
             break;
+        default:
+            break;
     }
 }
 

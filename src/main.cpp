@@ -4,10 +4,10 @@
 
 int main()
 {
-    auto *puzzle = new puzzleManager();
     auto *ui = new uiController();
 
     ui->drawMenu();
+    ui->runPuzzles();
 
     return 0;
 }

@@ -9,3 +9,13 @@ void uiController::drawMenu()
 {
     std::cout << "Which puzzle would you like to run?\n" << std::endl;
 }
+
+void uiController::runPuzzles()
+{
+
+}
+
+int uiController::getUserInput()
+{
+
+}
