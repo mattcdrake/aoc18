@@ -10,13 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/mattcdrake/aoc18.git"
   },
-  "author": "",
+  "author": "Matt Drake",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mattcdrake/aoc18/issues"
   },
   "homepage": "https://github.com/mattcdrake/aoc18#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.16.4"
   }
 }
