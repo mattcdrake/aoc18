@@ -2,7 +2,4 @@
 .vscode/*
 cmake-build-debug/*
 node_modules/*
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 6dd2348... Revert "Making this a node app instead"
