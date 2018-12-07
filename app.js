@@ -5,6 +5,7 @@ var solutionNames = {
     "Day 1 Solution": "solution1"
 };
 
+// Set EJS
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
@@ -15,9 +16,11 @@ app.get('/', function(req, res) {
 
 // Day 1
 app.get('/solution1', function(req, res) {
-    answer = solutionCalls.solution1(2);
-    console.log("Solving solution 1: " + answer);
-    res.render("solution1", {answer: answer});
+    solutionCalls.solution1(function(returnValue) {
+        console.log(returnValue);
+    })
+    // console.log("Solving solution 1: " + answer);
+    // res.render("solution1", {answer: answer});
 });
 
 app.listen(3000, function() {
