@@ -4,6 +4,11 @@ var solutionCalls = require("./solution");
 var solutionNames = {
     "Day 1 Solution": "solution1"
 };
+var solutions = {
+    "solution1": null
+}
+
+solutionCalls.solution1(solutions);
 
 // Set EJS
 app.use(express.static("public"));
@@ -16,13 +21,12 @@ app.get('/', function(req, res) {
 
 // Day 1
 app.get('/solution1', function(req, res) {
-    solutionCalls.solution1(function(returnValue) {
-        console.log(returnValue);
-    })
-    // console.log("Solving solution 1: " + answer);
-    // res.render("solution1", {answer: answer});
+    console.log("Solving for problem 1: " + solutions["solution1"]);
+    res.render("solution1", {answer: solutions["solution1"]});
 });
 
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
 });
+
+

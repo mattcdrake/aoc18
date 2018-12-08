@@ -19,14 +19,15 @@ function sumRows(data) {
 };
 
 module.exports = {
-    solution1: function() {
+    solution1: function(object) {
         //
         // Could probably speed this up by parsing each line as it's read from
         // the file, but I don't know enough JS (yet) to do that.
         //
-        fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
-            // console.log(sumRows(data));
-            return sumRows(data);
+        return fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
+            var answer = sumRows(data);
+            object['solution1'] = answer;
+            return answer;
         });
     }
 };

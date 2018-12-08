@@ -10,3 +10,4 @@ Yes, this is unnecessary. I just wanted to try learning some Node.js.
 - The actual puzzles, for one
 - Write test suite
 - Add react components
+- Clean app.js & solution.js
