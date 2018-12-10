@@ -5,20 +5,23 @@ var solutionCalls = require("./solution");
 var solutionNames = {
     "Solution #1": "solution1",
     "Solution #2": "solution2",
-    "Solution #3": "solution3"
+    "Solution #3": "solution3",
+    "Solution #4": "solution4"
 };
 var solutions = {
     "solution1": null,
     "solution2": null,
-    "solution3": null
+    "solution3": null,
+    "solution4": null
 }
 
 // TODO uncomment these once finished
 solutionCalls.solution1(solutions);
 //solutionCalls.solution2(solutions);
-solutionCalls.solution3(solutions);
+//solutionCalls.solution3(solutions);
+solutionCalls.solution4(solutions);
 
-// Set EJS
+// Set EJS as rendering engine
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
@@ -53,6 +56,15 @@ app.get('/solution3', function (req, res) {
     res.render("solution", {
         answer: solutions["solution3"],
         puzzle: 3
+    });
+});
+
+// Day 4
+app.get('/solution4', function (req, res) {
+    console.log("Solving for problem 4: " + solutions["solution4"]);
+    res.render("solution", {
+        answer: solutions["solution4"],
+        puzzle: 4
     });
 });
 

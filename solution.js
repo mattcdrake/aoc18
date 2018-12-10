@@ -110,6 +110,30 @@ function hasVals(boxid) {
     }
 }
 
+// Assuming strings are the same length. Would add error handling for the
+// general case.
+function stringDistance(string1, string2) {
+    var distance = 0;
+    for (var i = 0; i < string1.length; i++) {
+        if (string1.charAt(i) !== string2.charAt(i)) {
+            distance++;
+        }
+    }
+    return distance;
+}
+
+// Assuming strings are the same length. Would add error handling for the
+// general case.
+function stripDifferent(string1, string2) {
+    var outstring = "";
+    for (var i = 0; i < string1.length; i++) {
+        if (string1.charAt(i) === string2.charAt(i)) {
+            outstring += string1.charAt(i);
+        }
+    }
+    return outstring;
+}
+
 module.exports = {
     solution1: function (object) {
         //
@@ -160,6 +184,21 @@ module.exports = {
                 twosAndThrees = 0;
             }
             object['solution3'] = countTwos * countThrees;
+        });
+    },
+
+    solution4: function(object) {
+        return fs.readFile('./input_data/p3.txt', 'utf-8', (err, data) => {
+            data = data.split(os.EOL);
+
+            for (var i = 0; i < data.length; i++) {
+                for (var j = i + 1; j < data.length; j++) {
+                    if (stringDistance(data[i], data[j]) == 1) {
+                        object['solution4'] = stripDifferent(data[i], data[j]);
+                        return;
+                    }
+                }
+            }
         });
     }
 
