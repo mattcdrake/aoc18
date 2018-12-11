@@ -1,3 +1,5 @@
+var Fabric = require('./Fabric');
+
 var fs = require('fs');
 var os = require('os');
 
@@ -134,6 +136,26 @@ function stripDifferent(string1, string2) {
     return outstring;
 }
 
+// This function parses the string that defines size & position of fabric patch.
+// @return: A JSON with horizontalPos, verticalPos, width, and height values.
+function getFabricDimensions(spec) {
+    var output = {
+        horizontalPos: 0,
+        verticalPos: 0,
+        width: 0,
+        height: 0
+    };
+    var posString = spec.slice(spec.indexOf("@") + 2, spec.indexOf(":"));
+    var sizeString = spec.slice(spec.indexOf(":") + 1);
+
+    output.horizontalPos = posString.slice(0, posString.indexOf(","));
+    output.verticalPos = posString.slice(posString.indexOf(",") + 1);
+    output.width = sizeString.slice(1, sizeString.indexOf("x"));
+    output.height = sizeString.slice(sizeString.indexOf("x") + 1);
+
+    return output;
+}
+
 module.exports = {
     solution1: function (object) {
         //
@@ -199,6 +221,31 @@ module.exports = {
                     }
                 }
             }
+        });
+    },
+
+    solution5: function(object) {
+        // Parse input file
+        return fs.readFile('./input_data/p5.txt', 'utf-8', (err, data) => {
+            data = data.split(os.EOL);
+
+            // Create a "fabric" abstraction using 1000 sq inches
+            var fabric = new Fabric(1000, 1000);
+
+            // Iterate through whole file
+            for (var i = 0; i < data.length; i++) {
+                // For each spec, send dimensions to the fabric abstraction to
+                // track which squares are utilized and how many times
+                var dimensions = getFabricDimensions(data[i]);
+                // Simple check for last line in the input file
+                if (dimensions.height != "") {
+                    fabric.addOrder(dimensions);
+                }
+            }
+            object["solution5"] = fabric.sumDoubles();
+
+            // Calculate how many squares are used > 1 time
+
         });
     }
 

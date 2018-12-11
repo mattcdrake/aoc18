@@ -7,7 +7,7 @@ Yes, this is unnecessary. I just wanted to try learning some Node.js.
 
 ## TODO
 
-- The actual puzzles, for one
-- Write test suite
 - Add react components
 - Clean app.js & solution.js
+- Refactor GET routes to use a query string
+- Split up functions in `solution.js` in a more coherent way
