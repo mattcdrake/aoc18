@@ -26,6 +26,22 @@ class Fabric {
     }
   }
 
+  isOrderOverlapping(order) {
+    var verticalPos = parseInt(order.verticalPos);
+    var horizontalPos = parseInt(order.horizontalPos);
+    var height = parseInt(order.height);
+    var width = parseInt(order.width);
+
+    for (var i = verticalPos; i < verticalPos + height; i++) {
+      for (var j = horizontalPos; j < horizontalPos + width; j++) {
+        if (this.usageMap[i][j] > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   createUsageMap() {
     this.usageMap = [];
     for (var i = 0; i < this.height; i++) {

@@ -12,4 +12,5 @@ Yes, this is unnecessary. I just wanted to try learning some Node.js.
 - Refactor GET routes to use a query string
 - Split up functions in `solution.js` in a more coherent way
 - Add testing
+- Make each day have its own page with 2 puzzles per page
 
