@@ -25,7 +25,6 @@ function loopRows(data) {
   var index = 0;
   var found = false;
   var pastFreqs = [];
-  var count = 0;
   data = data.split(os.EOL);
 
   while (!found) {
@@ -245,6 +244,13 @@ module.exports = {
       object["solution5"] = fabric.sumDoubles();
 
       // Calculate how many squares are used > 1 time
+      for (var i = 0; i < data.length; i++) {
+        console.log(i);
+        if (!fabric.isOrderOverlapping(getFabricDimensions(data[i]))) {
+          console.log(data[i]);
+          return;
+        }
+      }
 
     });
   }
