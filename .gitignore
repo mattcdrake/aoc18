@@ -3,4 +3,6 @@
 workspace.code-workspace
 cmake-build-debug/*
 node_modules/*
+*.swp
+__pycache__/*
 
