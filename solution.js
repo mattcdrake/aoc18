@@ -55,7 +55,6 @@ function loopRows(data) {
     if (index >= data.length) {
       index = 0;
     }
-    count++;
   }
 
   return runningTotal;
@@ -245,9 +244,8 @@ module.exports = {
 
       // Calculate how many squares are used > 1 time
       for (var i = 0; i < data.length; i++) {
-        console.log(i);
         if (!fabric.isOrderOverlapping(getFabricDimensions(data[i]))) {
-          console.log(data[i]);
+          object["solution6"] = data[i];
           return;
         }
       }
