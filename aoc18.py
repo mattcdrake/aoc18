@@ -1,5 +1,6 @@
 import helper
 from claim import Claim, Fabric
+from operator import attrgetter
 
 def problem1():
     lines = helper.file_to_list("./input_data/p1.txt")
@@ -84,6 +85,15 @@ def problem5_6():
             return answer
 
 
+def problem7():
+    lines = helper.file_to_list("./input_data/p7.txt")
+    guard_messages = []
+    for line in lines:
+        guard_messages.append(helper.parse_guard_line(line))
+    guard_messages = sorted(guard_messages, key=attrgetter('time.year', 
+        'time.month', 'time.day', 'time.hour', 'time.minute'))
+
+
 # Store list based answers here
 p5_6_answer = problem5_6()
 
@@ -94,5 +104,6 @@ print("Solution to Problem #3: " + str(problem3()))
 print("Solution to Problem #4: " + str(problem4()))
 print("Solution to Problem #5: " + str(p5_6_answer[0]))
 print("Solution to Problem #6: " + str(p5_6_answer[1]))
+print("Solution to Problem #7: " + str(problem7()))
 
 
