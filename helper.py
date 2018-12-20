@@ -1,5 +1,5 @@
 import datetime
-import GuardLog
+import guard_log
 
 def file_to_list(path):
     """
@@ -98,5 +98,5 @@ def parse_guard_line(string):
     hour = int(sub[11:13])
     minute = int(sub[14:16])
     time = datetime.datetime(year, month, day, hour, minute)
-    return GuardLog.GuardLog(time, string[pos_second_bracket + 1:])
+    return guard_log.GuardLog(time, string[pos_second_bracket + 1:])
 

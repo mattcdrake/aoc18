@@ -1,4 +1,4 @@
- class Claim:
+class Claim:
     def __init__(self, num_id, left_edge, top_edge, width, height):
         self.num_id = num_id
         self.left_edge = left_edge

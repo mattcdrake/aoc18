@@ -1,4 +1,6 @@
 import helper
+import datetime
+import guard_log
 from claim import Claim, Fabric
 from operator import attrgetter
 
@@ -85,17 +87,61 @@ def problem5_6():
             return answer
 
 
-def problem7():
+def problem7_8():
     lines = helper.file_to_list("./input_data/p7.txt")
+
+    #Part 1
     guard_messages = []
     for line in lines:
+        # Appends a GuardLog object to the list
         guard_messages.append(helper.parse_guard_line(line))
     guard_messages = sorted(guard_messages, key=attrgetter('time.year', 
         'time.month', 'time.day', 'time.hour', 'time.minute'))
+    guard_calendar = guard_log.GuardCalendar()
+    for message in guard_messages:
+        words = message.message.split(" ")
+        if words[0] == "Guard":
+            active_guard = words[1][1:]
+            if message.time.hour == 23:
+                message.time += datetime.timedelta(hours=2)
+            current_day = guard_log.GuardDay(message.time, active_guard)
+            guard_calendar.add_day(current_day)
+        elif words[0] == "falls":
+            current_day.fall_asleep(message.time.minute)
+        elif words[0] == "wakes":
+            current_day.wake_up(message.time.minute)
+    guard_stats = guard_calendar.calc_guard_stats()
+    sleepy_guard = max(guard_stats.keys(), 
+        key=(lambda key: guard_stats[key]["total_minutes"]))
+    sleepy_minute = max(guard_stats[sleepy_guard]["minutes"].keys(),
+        key=(lambda key: guard_stats[sleepy_guard]["minutes"][key]))
+    p1answer = int(sleepy_guard) * int(sleepy_minute)
+
+    # Part 2
+    list_tuples = []
+    for k in guard_stats.keys():
+        temp_minute = max(guard_stats[k]["minutes"].keys(),
+            key=(lambda key: guard_stats[k]["minutes"][key]))
+        temp_max = guard_stats[k]["minutes"][temp_minute]
+        list_tuples.append([k, [int(temp_minute), int(temp_max)]])
+    
+    max_guard = 0
+    max_minute = 0
+    max_count = 0
+    for item in list_tuples:
+
+        if item[1][1] > max_count:
+            max_guard = item[0]
+            max_minute = item[1][0]
+            max_count = item[1][1]
+
+    p2answer = int(max_guard) * int(max_minute)
+    return [p1answer, p2answer]
 
 
 # Store list based answers here
 p5_6_answer = problem5_6()
+p7_8_answer = problem7_8()
 
 # Main program starts here
 print("Solution to Problem #1: " + str(problem1()))
@@ -104,6 +150,6 @@ print("Solution to Problem #3: " + str(problem3()))
 print("Solution to Problem #4: " + str(problem4()))
 print("Solution to Problem #5: " + str(p5_6_answer[0]))
 print("Solution to Problem #6: " + str(p5_6_answer[1]))
-print("Solution to Problem #7: " + str(problem7()))
-
+print("Solution to Problem #7: " + str(p7_8_answer[0]))
+print("Solution to Problem #7: " + str(p7_8_answer[1]))
 
