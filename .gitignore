@@ -4,5 +4,6 @@ workspace.code-workspace
 cmake-build-debug/*
 node_modules/*
 __pycache__/*
+out/*
 *.iml
 
