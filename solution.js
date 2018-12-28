@@ -24,7 +24,7 @@ function loopRows(data) {
   var runningTotal = 0;
   var index = 0;
   var found = false;
-  var pastFreqs = [];
+  var pastFreqs = new Set();
   data = data.split(os.EOL);
 
   while (!found) {
@@ -41,12 +41,12 @@ function loopRows(data) {
 
       // Check if value has been found before, if so, set flag.
       // I think you can do this from the while condition.
-      if (pastFreqs.includes(runningTotal)) {
+      if (pastFreqs.has(runningTotal)) {
         found = true;
       }
 
       // Add running total to array of found values
-      pastFreqs.push(runningTotal);
+      pastFreqs.add(runningTotal);
     }
 
 

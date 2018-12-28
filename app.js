@@ -22,12 +22,18 @@ app.get('/', function (req, res) {
 });
 
 app.get('/solutions/:puzzleId', function (req, res) {
-  console.log("Solving for problem " + req.params.puzzleId + ": " 
-    + solutions[req.params.puzzleId]);
-  res.render("solution", {
-    answer: solutions[req.params.puzzleId],
-    puzzle: parseInt(req.params.puzzleId)
+  var puzzleId = req.params.puzzleId;
+  if (puzzleId in Object.keys(solutions)) {
+    console.log("Solving for problem " + puzzleId + ": " 
+      + solutions[puzzleId]);
+    res.render("solution", {
+      answer: solutions[puzzleId],
+      puzzle: parseInt(puzzleId)
   });
+  } else {
+    console.log("Solution not found for problem " + puzzleId + ": 404");
+    res.render("404");
+  }
 });
 
 app.listen(3000, function () {
