@@ -286,11 +286,70 @@ module.exports = {
       logList = sortByKey(logList, 'timestamp');
 
       GuardLogDayArray = [];
+      var GuardLog;
+      var firstGuard = true;
 
       for (line in logList) {
-        console.log(logList[line]);
+        tempstring = logList[line]['restOfLine'];
+        if (tempstring.indexOf("Guard") > 0) {
+          if (!firstGuard) {
+            // Push the old guard log
+            GuardLogDayArray.push(GuardLog);
+          }
+          firstGuard = false;
+          var words = tempstring.split(' ');
+          var GuardId = words[2].substring(1);
+          logList[line]['timestamp'].setDate(
+            logList[line]['timestamp'].getDate() + 1);
+          GuardLog = new GuardLogDay(logList[line]['timestamp'], GuardId);
+        } else {
+          if (tempstring.indexOf("wakes") > 0) {
+            GuardLog.wakeUp(logList[line]['timestamp'].getMinutes());
+          } else {
+            GuardLog.fallAsleep(logList[line]['timestamp'].getMinutes());
+          }
+        }
+      }
+      GuardLogDayArray.push(GuardLog);
+      
+      var guardSleepCounter = {};
+
+      for (day in GuardLogDayArray) {
+        var dayInfo = GuardLogDayArray[day].getInfo();
+        var todaysGuard = dayInfo['guard'];
+
+        if (Object.keys(guardSleepCounter).includes(todaysGuard)) {
+          guardSleepCounter[todaysGuard] += dayInfo['minutesAsleep'];
+        } else {
+          guardSleepCounter[todaysGuard] = dayInfo['minutesAsleep'];
+        }
       }
 
+      var sleepyGuard = Object.keys(guardSleepCounter).reduce((a, b) =>
+        guardSleepCounter[a] > guardSleepCounter[b] ? a : b);
+
+      var sleepyMinutes = {};
+
+      for (var i = 0; i < 60; i++) {
+        sleepyMinutes[i] = 0;
+      }
+
+      for (day in GuardLogDayArray) {
+        if (GuardLogDayArray[day].guardId == sleepyGuard) {
+          var asleepMinutes = GuardLogDayArray[day].getAsleepMinutes();
+
+          asleepMinutes.forEach(function(value) {
+            sleepyMinutes[value]++;
+          });
+        }
+      }
+
+
+      var sleepiestMinute = Object.keys(sleepyMinutes).reduce((a, b) =>
+      sleepyMinutes[a] > sleepyMinutes[b] ? a : b);
+
+      object['7'] = sleepiestMinute * sleepyGuard;
+      return;
     });
   }
 };

@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 
 app.get('/solutions/:puzzleId', function (req, res) {
   var puzzleId = req.params.puzzleId;
-  if (puzzleId in Object.keys(solutions)) {
+  if (Object.keys(solutions).includes(puzzleId)) {
     console.log("Solving for problem " + puzzleId + ": " 
       + solutions[puzzleId]);
     res.render("solution", {
