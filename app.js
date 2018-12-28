@@ -7,8 +7,9 @@ solutionCalls.solution1(solutions);
 solutionCalls.solution2(solutions);
 solutionCalls.solution3(solutions);
 solutionCalls.solution4(solutions);
+// Solution5() fills solutions for puzzles 5 & 6
 solutionCalls.solution5(solutions);
-solutionCalls.solution6(solutions);
+solutionCalls.solution7(solutions);
 
 // Set EJS as rendering engine
 app.use(express.static("public"));

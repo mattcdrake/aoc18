@@ -1,4 +1,5 @@
 var Fabric = require('./fabric');
+var GuardLogDay = require('./guard-log');
 
 var fs = require('fs');
 var os = require('os');
@@ -154,6 +155,14 @@ function getFabricDimensions(spec) {
   return output;
 }
 
+function sortByKey(array, key) {
+  return array.sort(function(a, b) {
+    var x = a[key];
+    var y = b[key];
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+}
+
 module.exports = {
   solution1: function (object) {
     //
@@ -249,12 +258,40 @@ module.exports = {
           return;
         }
       }
-
     });
   }, 
 
-  solution6: function(object) {
+  solution7: function(object) {
+    // Parse input file
+    return fs.readFile('./input_data/p7.txt', 'utf-8', (err, data) => {
+      // Split input on newlines and drop empty lines
+      data = data.split(os.EOL);
+      data = data.filter(line => line.length > 0);
+      var logList = [];
 
+      for (var i = 0; i < data.length; i++) {
+        var line = data[i];
+        var dateString = line.substring(line.indexOf('[') + 1, 
+          line.indexOf(']'));
+        var year = dateString.substring(0, 4);
+        var month = dateString.substring(5, 7);
+        month = month - 1;
+        var day = dateString.substring(8, 10);
+        var hour = dateString.substring(11, 13);
+        var minute = dateString.substring(14, 16);
+        var thisDate = new Date(year, month, day, hour, minute);
+        logList.push({timestamp: thisDate, 
+          restOfLine: line.substring(line.indexOf("]") + 1)});
+      }
+      logList = sortByKey(logList, 'timestamp');
+
+      GuardLogDayArray = [];
+
+      for (line in logList) {
+        console.log(logList[line]);
+      }
+
+    });
   }
 };
 
