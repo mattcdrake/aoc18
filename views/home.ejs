@@ -5,8 +5,8 @@
 <ul>
 <% Object.keys(solutions).forEach(function(solution) { %>
     <li>
-        <a href="<%=solution%>">
-            Solution #<%= solution.replace("solution", "")%>
+        <a href="solutions/<%= solution %>">
+            Solution #<%= solution %>
         </a>
     </li>
 <% }) %>

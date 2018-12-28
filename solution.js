@@ -162,7 +162,7 @@ module.exports = {
     //
     return fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
       var answer = sumRows(data);
-      object['solution1'] = answer;
+      object['1'] = answer;
       return answer;
     });
   },
@@ -170,7 +170,7 @@ module.exports = {
   solution2: function (object) {
     return fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
       var answer = loopRows(data);
-      object['solution2'] = answer;
+      object['2'] = answer;
       return answer;
     });
   },
@@ -203,7 +203,7 @@ module.exports = {
         // Reset twosAndThrees for next loop
         twosAndThrees = 0;
       }
-      object['solution3'] = countTwos * countThrees;
+      object['3'] = countTwos * countThrees;
     });
   },
 
@@ -214,7 +214,7 @@ module.exports = {
       for (var i = 0; i < data.length; i++) {
         for (var j = i + 1; j < data.length; j++) {
           if (stringDistance(data[i], data[j]) == 1) {
-            object['solution4'] = stripDifferent(data[i], data[j]);
+            object['4'] = stripDifferent(data[i], data[j]);
             return;
           }
         }
@@ -240,12 +240,12 @@ module.exports = {
           fabric.addOrder(dimensions);
         }
       }
-      object["solution5"] = fabric.sumDoubles();
+      object["5"] = fabric.sumDoubles();
 
       // Calculate how many squares are used > 1 time
       for (var i = 0; i < data.length; i++) {
         if (!fabric.isOrderOverlapping(getFabricDimensions(data[i]))) {
-          object["solution6"] = data[i];
+          object["6"] = data[i];
           return;
         }
       }
