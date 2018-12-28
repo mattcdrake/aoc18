@@ -1,4 +1,4 @@
-var Fabric = require('./Fabric');
+var Fabric = require('./fabric');
 
 var fs = require('fs');
 var os = require('os');
@@ -251,6 +251,10 @@ module.exports = {
       }
 
     });
+  }, 
+
+  solution6: function(object) {
+
   }
 };
 
