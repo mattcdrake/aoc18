@@ -3,14 +3,12 @@
 A simple Node.js app that views my solutions for the 2018 Advent of Code
 solutions from a ~~nice(ish)~~ gross web interface.
 
-Yes, this is unnecessary. I just wanted to try learning some Node.js.
+It's obviously unneccessary to create a full web app to solve the puzzles - a
+few Python scripts would be much simpler for hammering out th algorithms.
+However, I wanted to try learning JavaScript in depth and a Node.js app seemed
+like the perfect way to achieve that.
 
 ## TODO
 
-- Clean app.js & solution.js
-- Refactor GET routes to use a query string
-- Split up functions in `solution.js` in a more coherent way
-- Add test suite that makes sure old answers don't get broken (helpful for
-  refactors)
-
-
+- Break up the monolithic structure of puzzle #7's solution
+- Add test suite confirming that old answers don't change
