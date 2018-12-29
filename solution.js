@@ -1,200 +1,231 @@
-var Fabric = require('./fabric');
-var GuardLogDay = require('./guard-log');
-var HelperFunctions = require('./helper-fcns');
-
-var fs = require('fs');
-var os = require('os');
+const fs = require('fs');
+const os = require('os');
+const Fabric = require('./fabric');
+const GuardLogDay = require('./guard-log');
+const HelperFunctions = require('./helper-fcns');
 
 module.exports = {
-  solution1: function (object) {
+  solutions: {},
+
+  getSolutions: () => module.exports.solutions,
+
+  setAnswer(puzzle, answer) {
+    this.solutions[puzzle] = answer;
+  },
+
+  solution1: () => {
     //
     // Could probably speed this up by parsing each line as it's read from
     // the file, but I don't know enough JS (yet) to do that.
     //
-    return fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
-      var answer = HelperFunctions.sumRows(data);
-      object['1'] = answer;
-      return answer;
+    fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
+      const answer = HelperFunctions.sumRows(data);
+      // object['1'] = answer;
+      module.exports.setAnswer(1, answer);
     });
   },
 
-  solution2: function (object) {
-    return fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
-      var answer = HelperFunctions.loopRows(data);
-      object['2'] = answer;
-      return answer;
+  solution2: () => {
+    fs.readFile('./input_data/p1.txt', 'utf-8', (err, data) => {
+      const answer = HelperFunctions.loopRows(data);
+      module.exports.setAnswer(2, answer);
     });
   },
 
-  solution3: function (object) {
-    return fs.readFile('./input_data/p3.txt', 'utf-8', (err, data) => {
-      var countTwos = 0;
-      var countThrees = 0;
+  solution3: () => {
+    fs.readFile('./input_data/p3.txt', 'utf-8', (err, data) => {
+      let countTwos = 0;
+      let countThrees = 0;
       //
       // Function return of 0 means that the value didn't have 2's or 3's,
       // Return of 1 means had 2's, not 3's,
       // Return of 2 means has 3's, not 2's,
       // Return of 3 means has both
       //
-      var twosAndThrees = 0;
-      data = data.split(os.EOL);
+      let twosAndThrees = 0;
+      const splitLines = data.split(os.EOL);
 
-      for (item in data) {
-        twosAndThrees = HelperFunctions.hasVals(data[item]);
-        if (twosAndThrees === 0) {
-          continue;
-        } else if (twosAndThrees === 1) {
+      for (let i = 0; i < splitLines.length; i++) {
+        twosAndThrees = HelperFunctions.hasVals(splitLines[i]);
+        if (twosAndThrees === 1) {
           countTwos++;
         } else if (twosAndThrees === 2) {
           countThrees++;
-        } else {
+        } else if (twosAndThrees === 3) {
           countTwos++;
           countThrees++;
         }
         // Reset twosAndThrees for next loop
         twosAndThrees = 0;
       }
-      object['3'] = countTwos * countThrees;
+      const answer = countTwos * countThrees;
+      module.exports.setAnswer(3, answer);
     });
   },
 
-  solution4: function (object) {
-    return fs.readFile('./input_data/p3.txt', 'utf-8', (err, data) => {
-      data = data.split(os.EOL);
+  solution4: () => {
+    fs.readFile('./input_data/p3.txt', 'utf-8', (err, data) => {
+      const splitLines = data.split(os.EOL);
 
-      for (var i = 0; i < data.length; i++) {
-        for (var j = i + 1; j < data.length; j++) {
-          if (HelperFunctions.stringDistance(data[i], data[j]) == 1) {
-            object['4'] = HelperFunctions.stripDifferent(data[i], data[j]);
-            return;
+      for (let i = 0; i < splitLines.length; i++) {
+        for (let j = i + 1; j < splitLines.length; j++) {
+          const distance = HelperFunctions.stringDistance(
+            splitLines[i],
+            splitLines[j],
+          );
+          if (distance === 1) {
+            const answer = HelperFunctions.stripDifferent(
+              splitLines[i],
+              splitLines[j],
+            );
+            module.exports.setAnswer(4, answer);
           }
         }
       }
     });
   },
 
-  solution5: function (object) {
+  solution5: () => {
     // Parse input file
-    return fs.readFile('./input_data/p5.txt', 'utf-8', (err, data) => {
-      data = data.split(os.EOL);
+    fs.readFile('./input_data/p5.txt', 'utf-8', (err, data) => {
+      const splitLines = data.split(os.EOL);
 
       // Create a "fabric" abstraction using 1000 sq inches
-      var fabric = new Fabric(1000, 1000);
+      const fabric = new Fabric(1000, 1000);
 
       // Iterate through whole file
-      for (var i = 0; i < data.length; i++) {
+      for (let i = 0; i < splitLines.length; i++) {
         // For each spec, send dimensions to the fabric abstraction to
         // track which squares are utilized and how many times
-        var dimensions = HelperFunctions.getFabricDimensions(data[i]);
+        const dimensions = HelperFunctions.getFabricDimensions(splitLines[i]);
         // Simple check for last line in the input file
-        if (dimensions.height != "") {
+        if (dimensions.height !== '') {
           fabric.addOrder(dimensions);
         }
       }
-      object["5"] = fabric.sumDoubles();
+      let answer = fabric.sumDoubles();
+      module.exports.setAnswer(5, answer);
 
       // Calculate how many squares are used > 1 time
-      for (var i = 0; i < data.length; i++) {
-        if (!fabric.isOrderOverlapping(
-          HelperFunctions.getFabricDimensions(data[i]))) {
-            object["6"] = data[i];
-            return;
+      for (let i = 0; i < splitLines.length; i++) {
+        const fabricDims = HelperFunctions.getFabricDimensions(splitLines[i]);
+        if (!fabric.isOrderOverlapping(fabricDims)) {
+          answer = splitLines[i];
+          module.exports.setAnswer(6, answer);
+          return;
         }
       }
     });
-  }, 
+  },
 
   // TODO break up this monolithic function
-  solution7: function(object) {
+  solution7: () => {
     // Parse input file
-    return fs.readFile('./input_data/p7.txt', 'utf-8', (err, data) => {
+    fs.readFile('./input_data/p7.txt', 'utf-8', (err, data) => {
       // Split input on newlines and drop empty lines
-      data = data.split(os.EOL);
-      data = data.filter(line => line.length > 0);
-      var logList = [];
+      const tempLines = data.split(os.EOL);
+      const splitLines = tempLines.filter(line => line.length > 0);
+      let logList = [];
 
-      for (var i = 0; i < data.length; i++) {
-        var line = data[i];
-        var dateString = line.substring(line.indexOf('[') + 1, 
-          line.indexOf(']'));
-        var year = dateString.substring(0, 4);
-        var month = dateString.substring(5, 7);
-        month = month - 1;
-        var day = dateString.substring(8, 10);
-        var hour = dateString.substring(11, 13);
-        var minute = dateString.substring(14, 16);
-        var thisDate = new Date(year, month, day, hour, minute);
-        logList.push({timestamp: thisDate, 
-          restOfLine: line.substring(line.indexOf("]") + 1)});
+      for (let i = 0; i < splitLines.length; i++) {
+        const line = splitLines[i];
+        const dateString = line.substring(
+          line.indexOf('[') + 1,
+          line.indexOf(']'),
+        );
+        const year = dateString.substring(0, 4);
+        let month = dateString.substring(5, 7);
+        month--;
+        const day = dateString.substring(8, 10);
+        const hour = dateString.substring(11, 13);
+        const minute = dateString.substring(14, 16);
+        const thisDate = new Date(year, month, day, hour, minute);
+        logList.push({
+          timestamp: thisDate,
+          restOfLine: line.substring(line.indexOf(']') + 1),
+        });
       }
       logList = HelperFunctions.sortByKey(logList, 'timestamp');
 
-      GuardLogDayArray = [];
-      var GuardLog;
-      var firstGuard = true;
+      const GuardLogDayArray = [];
+      let GuardLog;
+      let firstGuard = true;
 
-      for (line in logList) {
-        tempstring = logList[line]['restOfLine'];
-        if (tempstring.indexOf("Guard") > 0) {
+      for (let i = 0; i < logList.length; i++) {
+        const tempstring = logList[i].restOfLine;
+        if (tempstring.indexOf('Guard') > 0) {
           if (!firstGuard) {
             // Push the old guard log
             GuardLogDayArray.push(GuardLog);
           }
           firstGuard = false;
-          var words = tempstring.split(' ');
-          var GuardId = words[2].substring(1);
-          logList[line]['timestamp'].setDate(
-            logList[line]['timestamp'].getDate() + 1);
-          GuardLog = new GuardLogDay(logList[line]['timestamp'], GuardId);
+          const words = tempstring.split(' ');
+          const GuardId = words[2].substring(1);
+          logList[i].timestamp.setDate(logList[i].timestamp.getDate() + 1);
+          GuardLog = new GuardLogDay(logList[i].timestamp, GuardId);
+        } else if (tempstring.indexOf('wakes') > 0) {
+          GuardLog.wakeUp(logList[i].timestamp.getMinutes());
         } else {
-          if (tempstring.indexOf("wakes") > 0) {
-            GuardLog.wakeUp(logList[line]['timestamp'].getMinutes());
-          } else {
-            GuardLog.fallAsleep(logList[line]['timestamp'].getMinutes());
-          }
+          GuardLog.fallAsleep(logList[i].timestamp.getMinutes());
         }
       }
-      GuardLogDayArray.push(GuardLog);
-      
-      var guardSleepCounter = {};
 
-      for (day in GuardLogDayArray) {
-        var dayInfo = GuardLogDayArray[day].getInfo();
-        var todaysGuard = dayInfo['guard'];
+      GuardLogDayArray.push(GuardLog);
+
+      const guardSleepCounter = {};
+
+      for (let i = 0; i < GuardLogDayArray.length; i++) {
+        const dayInfo = GuardLogDayArray[i].getInfo();
+        const todaysGuard = dayInfo.guard;
 
         if (Object.keys(guardSleepCounter).includes(todaysGuard)) {
-          guardSleepCounter[todaysGuard] += dayInfo['minutesAsleep'];
+          guardSleepCounter[todaysGuard] += dayInfo.minutesAsleep;
         } else {
-          guardSleepCounter[todaysGuard] = dayInfo['minutesAsleep'];
+          guardSleepCounter[todaysGuard] = dayInfo.minutesAsleep;
         }
       }
 
-      var sleepyGuard = Object.keys(guardSleepCounter).reduce((a, b) =>
-        guardSleepCounter[a] > guardSleepCounter[b] ? a : b);
+      let reducer = (a, b) => {
+        const subAnswer = guardSleepCounter[a] > guardSleepCounter[b] ? a : b;
+        return subAnswer;
+      };
 
-      var sleepyMinutes = {};
+      const sleepyGuard = Object.keys(guardSleepCounter).reduce(reducer);
 
-      for (var i = 0; i < 60; i++) {
+      const sleepyMinutes = {};
+
+      for (let i = 0; i < 60; i++) {
         sleepyMinutes[i] = 0;
       }
 
-      for (day in GuardLogDayArray) {
-        if (GuardLogDayArray[day].guardId == sleepyGuard) {
-          var asleepMinutes = GuardLogDayArray[day].getAsleepMinutes();
+      for (let i = 0; i < GuardLogDayArray.length; i++) {
+        if (GuardLogDayArray[i].guardId === sleepyGuard) {
+          const asleepMinutes = GuardLogDayArray[i].getAsleepMinutes();
 
-          asleepMinutes.forEach(function(value) {
+          asleepMinutes.forEach((value) => {
             sleepyMinutes[value]++;
           });
         }
       }
 
+      reducer = (a, b) => {
+        const subAnswer = sleepyMinutes[a] > sleepyMinutes[b] ? a : b;
+        return subAnswer;
+      };
 
-      var sleepiestMinute = Object.keys(sleepyMinutes).reduce((a, b) =>
-      sleepyMinutes[a] > sleepyMinutes[b] ? a : b);
-
-      object['7'] = sleepiestMinute * sleepyGuard;
-      return;
+      const sleepiestMinute = Object.keys(sleepyMinutes).reduce(reducer);
+      const answer = sleepiestMinute * sleepyGuard;
+      module.exports.setAnswer(7, answer);
     });
-  }
-};
+  },
 
+  solvePuzzles() {
+    this.solution1();
+    this.solution2();
+    this.solution3();
+    this.solution4();
+    // Solution5() fills solutions for puzzles 5 & 6
+    this.solution5();
+    this.solution7();
+  },
+};
