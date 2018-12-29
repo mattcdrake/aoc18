@@ -10,5 +10,7 @@ Yes, this is unnecessary. I just wanted to try learning some Node.js.
 - Clean app.js & solution.js
 - Refactor GET routes to use a query string
 - Split up functions in `solution.js` in a more coherent way
-- Add testing
+- Add test suite that makes sure old answers don't get broken (helpful for
+  refactors)
+
 
