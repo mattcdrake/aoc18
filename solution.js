@@ -43,7 +43,8 @@ module.exports = {
       // Return of 3 means has both
       //
       let twosAndThrees = 0;
-      const splitLines = data.split(os.EOL);
+      const tempLines = data.split(os.EOL);
+      const splitLines = tempLines.filter(line => line.length > 0);
 
       for (let i = 0; i < splitLines.length; i++) {
         twosAndThrees = HelperFunctions.hasVals(splitLines[i]);
@@ -145,7 +146,9 @@ module.exports = {
           restOfLine: line.substring(line.indexOf(']') + 1),
         });
       }
+
       logList = HelperFunctions.sortByKey(logList, 'timestamp');
+
 
       const GuardLogDayArray = [];
       let GuardLog;

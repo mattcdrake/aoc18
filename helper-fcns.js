@@ -3,7 +3,8 @@ const os = require('os');
 module.exports = {
   sumRows: (data) => {
     let runningTotal = 0;
-    const splitLines = data.split(os.EOL);
+    const tempLines = data.split(os.EOL);
+    const splitLines = tempLines.filter(line => line.length > 0);
     for (let i = 0; i < splitLines.length; i++) {
       const sign = splitLines[i][0];
       const val = parseInt(splitLines[i].substring(1), 10);
@@ -23,12 +24,14 @@ module.exports = {
     let index = 0;
     let found = false;
     const pastFreqs = new Set();
-    const splitLines = data.split(os.EOL);
+    const tempLines = data.split(os.EOL);
+    const splitLines = tempLines.filter(line => line.length > 0);
 
     while (!found) {
       // Add the current data item to the running total
-      const sign = splitLines[index][0];
-      const val = parseInt(data[index].substring(1), 10);
+      const tempString = splitLines[index];
+      const sign = tempString.substring(0, 1);
+      const val = parseInt(tempString.substring(1), 10);
 
       if (!Number.isNaN(val)) {
         if (sign === '+') {
@@ -50,7 +53,7 @@ module.exports = {
 
       // Increment index and reset it to 0 if necessary
       index++;
-      if (index >= data.length) {
+      if (index >= splitLines.length) {
         index = 0;
       }
     }
@@ -69,9 +72,9 @@ module.exports = {
     // to the dictionary.
     for (let i = 0; i < boxid.length; i++) {
       if (Object.keys(letterCounts).includes(boxid.charAt(i))) {
-        letterCounts[boxid[i]]++;
+        letterCounts[boxid.charAt(i)]++;
       } else {
-        letterCounts[boxid[i]] = 1;
+        letterCounts[boxid.charAt(i)] = 1;
       }
     }
 
@@ -83,18 +86,15 @@ module.exports = {
     // Return of 2 means has 3's, not 2's,
     // Return of 3 means has both
     //
-    for (let i = 0; i < letterCounts.length; i++) {
+    Object.keys(letterCounts).forEach((key) => {
       // If both 2's and 3's are found, we can exit early
-      if (foundTwo && foundThree) {
-        break;
-      }
-      if (letterCounts[i] === 2) {
+      if (letterCounts[key] === 2) {
         foundTwo = true;
       }
-      if (letterCounts[i] === 3) {
+      if (letterCounts[key] === 3) {
         foundThree = true;
       }
-    }
+    });
 
     let outval = 0;
 
@@ -168,5 +168,6 @@ module.exports = {
       }
       return outval;
     });
+    return array;
   },
 };
