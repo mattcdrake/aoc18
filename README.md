@@ -10,5 +10,4 @@ like the perfect way to achieve that.
 
 ## TODO
 
-- Break up the monolithic structure of puzzle #7's solution
 - Add test suite confirming that old answers don't change
