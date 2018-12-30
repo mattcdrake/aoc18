@@ -216,9 +216,50 @@ module.exports = {
         return subAnswer;
       };
 
-      const sleepiestMinute = Object.keys(sleepyMinutes).reduce(reducer);
+      let sleepiestMinute = Object.keys(sleepyMinutes).reduce(reducer);
       const answer = sleepiestMinute * sleepyGuard;
       module.exports.setAnswer(7, answer);
+
+      const minuteSleepFrequency = {};
+      for (let i = 0; i < GuardLogDayArray.length; i++) {
+        const keys = Object.keys(minuteSleepFrequency);
+        const dayGuard = GuardLogDayArray[i].guardId;
+        // Initializes the guard's minute count if this is the first time the
+        // guard has appeared in the log.
+        if (!keys.includes(dayGuard)) {
+          minuteSleepFrequency[dayGuard] = {};
+          for (let j = 0; j < 60; j++) {
+            minuteSleepFrequency[dayGuard][j] = 0;
+          }
+        }
+        // Adds each minute the guard slept to the object
+        GuardLogDayArray[i].getAsleepMinutes().forEach((minute) => {
+          minuteSleepFrequency[dayGuard][minute]++;
+        });
+      }
+
+      sleepiestMinute = {};
+
+      Object.keys(minuteSleepFrequency).forEach((key) => {
+        const guardMinutes = minuteSleepFrequency[key];
+        const sleepyMinute = Object.keys(guardMinutes).reduce(
+          (a, b) => (guardMinutes[a] > guardMinutes[b] ? a : b),
+        );
+        sleepiestMinute[key] = {
+          sleepyMinute: parseInt(sleepyMinute, 10),
+          timesAsleep: minuteSleepFrequency[key][sleepyMinute],
+        };
+      });
+
+      // Find guard that sleeps more on a single minute than all others
+      const sleepiestGuard = Object.keys(sleepiestMinute).reduce(
+        (a, b) => (sleepiestMinute[a].timesAsleep > sleepiestMinute[b].timesAsleep ? a : b),
+      );
+
+      const answerGuard = parseInt(sleepiestGuard, 10);
+      const answerMinute = sleepiestMinute[sleepiestGuard].sleepyMinute;
+      const answer2 = answerGuard * answerMinute;
+      module.exports.setAnswer(8, answer2);
     });
   },
 
@@ -229,6 +270,7 @@ module.exports = {
     this.solution4();
     // Solution5() fills solutions for puzzles 5 & 6
     this.solution5();
+    // Solution7() fills solutions for puzzles 7 & 8
     this.solution7();
   },
 };
