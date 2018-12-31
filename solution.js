@@ -214,7 +214,7 @@ module.exports = {
 
   solution10: () => {
     fs.readFile('./input_data/p9.txt', 'utf-8', (err, data) => {
-      const polymerString = data.trim();
+      const polymerString = data;
       const polymerLengths = {};
       for (let i = 0; i < 26; i++) {
         const unit = String.fromCharCode(97 + i);
