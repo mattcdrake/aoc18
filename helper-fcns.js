@@ -50,7 +50,6 @@ module.exports = {
         pastFreqs.add(runningTotal);
       }
 
-
       // Increment index and reset it to 0 if necessary
       index++;
       if (index >= splitLines.length) {
@@ -169,5 +168,13 @@ module.exports = {
       return outval;
     });
     return array;
+  },
+
+  hasReaction: (string) => {
+    const char1 = string.charAt(0);
+    const char2 = string.charAt(1);
+
+    return (char1 !== char2) &&
+      ((char1 === char2.toUpperCase()) || (char1 === char2.toLowerCase()));
   },
 };

@@ -119,7 +119,6 @@ module.exports = {
     });
   },
 
-  // TODO break up this monolithic function
   solution7: () => {
     // Parse input file
     fs.readFile('./input_data/p7.txt', 'utf-8', (err, data) => {
@@ -195,13 +194,36 @@ module.exports = {
 
       // Find guard that sleeps more on a single minute than all others
       const sleepiestGuard = Object.keys(sleepiestMinute).reduce(
-        (a, b) => (sleepiestMinute[a].timesAsleep > sleepiestMinute[b].timesAsleep ? a : b),
+        (a, b) => (
+          sleepiestMinute[a].timesAsleep >
+          sleepiestMinute[b].timesAsleep ? a : b),
       );
 
       const answerGuard = parseInt(sleepiestGuard, 10);
       const answerMinute = sleepiestMinute[sleepiestGuard].sleepyMinute;
       const answer2 = answerGuard * answerMinute;
       module.exports.setAnswer(8, answer2);
+    });
+  },
+
+  solution9: () => {
+    fs.readFile('./input_data/p9.txt', 'utf-8', (err, data) => {
+      let unitString = data.trim();
+      let modified = false;
+      for (let i = 0; i < unitString.length - 1; i++) {
+        if (HelperFunctions.hasReaction(unitString.substring(i, i + 2))) {
+          const part1 = unitString.substring(0, i);
+          const part2 = unitString.substring(i + 2);
+          unitString = part1 + part2;
+          i--;
+          modified = true;
+        }
+        if (i === unitString.length - 2 && modified) {
+          modified = false;
+          i = 0;
+        }
+      }
+      module.exports.setAnswer(9, unitString.length);
     });
   },
 
@@ -214,5 +236,6 @@ module.exports = {
     this.solution5();
     // Solution7() fills solutions for puzzles 7 & 8
     this.solution7();
+    this.solution9();
   },
 };

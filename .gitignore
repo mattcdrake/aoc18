@@ -1,6 +1,5 @@
 .idea/*
 .vscode/*
-.eslintrc.js
 workspace.code-workspace
 cmake-build-debug/*
 node_modules/*
