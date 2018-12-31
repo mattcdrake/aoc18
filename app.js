@@ -18,12 +18,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/solutions/:puzzleId', (req, res) => {
-  const [puzzleId] = req.params.puzzleId;
   const solutions = solutionCalls.getSolutions();
-  if (Object.keys(solutions).includes(puzzleId)) {
+  if (Object.keys(solutions).includes(req.params.puzzleId)) {
     res.render('solution', {
-      answer: solutions[puzzleId],
-      puzzle: parseInt(puzzleId, 10),
+      answer: solutions[req.params.puzzleId],
+      puzzle: parseInt(req.params.puzzleId, 10),
     });
   } else {
     res.render('404');

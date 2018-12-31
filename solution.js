@@ -208,22 +208,25 @@ module.exports = {
 
   solution9: () => {
     fs.readFile('./input_data/p9.txt', 'utf-8', (err, data) => {
-      let unitString = data.trim();
-      let modified = false;
-      for (let i = 0; i < unitString.length - 1; i++) {
-        if (HelperFunctions.hasReaction(unitString.substring(i, i + 2))) {
-          const part1 = unitString.substring(0, i);
-          const part2 = unitString.substring(i + 2);
-          unitString = part1 + part2;
-          i--;
-          modified = true;
-        }
-        if (i === unitString.length - 2 && modified) {
-          modified = false;
-          i = 0;
-        }
+      module.exports.setAnswer(9, HelperFunctions.fullyReact(data));
+    });
+  },
+
+  solution10: () => {
+    fs.readFile('./input_data/p9.txt', 'utf-8', (err, data) => {
+      const polymerString = data.trim();
+      const polymerLengths = {};
+      for (let i = 0; i < 26; i++) {
+        const unit = String.fromCharCode(97 + i);
+        const strippedUnit = HelperFunctions.stripUnit(polymerString, unit);
+        const currentLength = HelperFunctions.fullyReact(strippedUnit);
+        polymerLengths[unit] = currentLength;
       }
-      module.exports.setAnswer(9, unitString.length);
+      const shortestPolymer = Object.keys(polymerLengths).reduce(
+        (a, b) => (
+          polymerLengths[a] < polymerLengths[b] ? a : b),
+      );
+      module.exports.setAnswer(10, polymerLengths[shortestPolymer]);
     });
   },
 
@@ -237,5 +240,6 @@ module.exports = {
     // Solution7() fills solutions for puzzles 7 & 8
     this.solution7();
     this.solution9();
+    this.solution10();
   },
 };

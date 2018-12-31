@@ -177,4 +177,31 @@ module.exports = {
     return (char1 !== char2) &&
       ((char1 === char2.toUpperCase()) || (char1 === char2.toLowerCase()));
   },
+
+  fullyReact: (data) => {
+    let unitString = data.trim();
+    let modified = false;
+    for (let i = 0; i < unitString.length - 1; i++) {
+      const reactSub = unitString.substring(i, i + 2);
+      if (module.exports.hasReaction(reactSub)) {
+        const part1 = unitString.substring(0, i);
+        const part2 = unitString.substring(i + 2);
+        unitString = part1 + part2;
+        unitString = unitString.trim();
+        i--;
+        modified = true;
+      }
+      if (i >= unitString.length - 2 && modified) {
+        modified = false;
+        i = -1;
+      }
+    }
+    unitString = unitString.trim();
+    return unitString.length;
+  },
+
+  stripUnit: (polymer, unit) => {
+    const re = RegExp(unit, 'gi');
+    return polymer.replace(re, '');
+  },
 };
