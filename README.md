@@ -9,5 +9,3 @@ However, I wanted to try learning JavaScript in depth and a Node.js app seemed
 like the perfect way to achieve that.
 
 ## TODO
-
-- Add test suite confirming that old answers don't change

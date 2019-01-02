@@ -1,3 +1,4 @@
+const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const Fabric = require('./fabric');
@@ -230,16 +231,35 @@ module.exports = {
     });
   },
 
-  solvePuzzles() {
-    this.solution1();
-    this.solution2();
-    this.solution3();
-    this.solution4();
+  solvePuzzles: () => {
+    module.exports.solution1();
+    module.exports.solution2();
+    module.exports.solution3();
+    module.exports.solution4();
     // Solution5() fills solutions for puzzles 5 & 6
-    this.solution5();
+    module.exports.solution5();
     // Solution7() fills solutions for puzzles 7 & 8
-    this.solution7();
-    this.solution9();
-    this.solution10();
+    module.exports.solution7();
+    module.exports.solution9();
+    module.exports.solution10();
+    module.exports.runTests();
+  },
+
+  runTests: () => {
+    setTimeout(() => {
+      const solutions = module.exports.getSolutions();
+      assert(solutions[1] === 531, 'solution 1 is broken - expected 531');
+      assert(solutions[2] === 76787, 'solution 2 is broken - expected 76787');
+      assert(solutions[3] === 7776, 'solution 3 is broken - expected 7776');
+      assert(solutions[4] === 'wlkigsqyfecjqqmnxaktdrhbz', 'solution 4 is ' +
+        'broken - expected "wlkigsqyfecjqqmnxaktdrhbz"');
+      assert(solutions[5] === 103482, 'solution 5 is broken - expected 103482');
+      assert(solutions[6] === '#686 @ 293,806: 20x26', 'solution 6 is broken' +
+        ' - expected "#686 @ 293,806: 20x26"');
+      assert(solutions[7] === 19025, 'solution 7 is broken - expected 19025');
+      assert(solutions[8] === 23776, 'solution 8 is broken - expected 23776');
+      assert(solutions[9] === 11476, 'solution 9 is broken - expected 11476');
+      assert(solutions[10] === 5446, 'solution 10 is broken - expected 5446');
+    }, 2000);
   },
 };
